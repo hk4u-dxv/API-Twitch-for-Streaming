@@ -1,51 +1,65 @@
 /**
- * Script para manejar la interactividad del dashboard
- * Controla la visibilidad y obtención de información del stream
+ * Dashboard principal de la aplicación
+ * Maneja la inicialización y coordinación de los módulos UI y Stream
  */
 
-function toggleStreamInfo() {
-  // Obtiene referencias a los elementos del DOM
-  const streamInfo = document.getElementById("streamInfo");
-  const buttonText = document.getElementById("toggleButtonText");
+import UIManager from "./modules/UIManager.js";
+import StreamManager from "./modules/StreamManager.js";
 
-  if (streamInfo.classList.contains("hidden")) {
-    // Si el panel está oculto, realiza la solicitud para obtener la clave
-    fetch("dashboard.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: "start_stream=1",
-    })
-      .then((response) => {
-        // Muestra el panel y actualiza el texto del botón
-        streamInfo.classList.remove("hidden");
-        buttonText.textContent = "Ocultar Información";
-      })
-      .catch((error) => {
-        // Maneja cualquier error que ocurra durante la solicitud
-        console.error("Error:", error);
-      });
-  } else {
-    // Si el panel está visible, lo oculta y actualiza el texto del botón
-    streamInfo.classList.add("hidden");
-    buttonText.textContent = "Obtener Información de Stream";
+class Dashboard {
+  /**
+   * Constructor del Dashboard
+   * Inicializa los managers y configura los event listeners
+   */
+  constructor() {
+    // Inicializa los managers necesarios
+    this.uiManager = new UIManager();
+    this.streamManager = new StreamManager(this.uiManager);
+    this.initializeEventListeners();
+  }
+
+  /**
+   * Inicializa todos los event listeners necesarios
+   * Configura los eventos de carga de página y botones
+   */
+  initializeEventListeners() {
+    // Event Listener para cuando se carga la página
+    window.addEventListener("load", () => {
+      // Actualiza el texto del botón según el estado actual
+      if (this.uiManager.streamInfo.classList.contains("hidden")) {
+        this.uiManager.buttonText.textContent = "Obtener Información de Stream";
+      } else {
+        this.uiManager.buttonText.textContent = "Ocultar Información";
+      }
+
+      // Inicia las estadísticas en vivo si el elemento existe
+      if (document.querySelector(".text-twitch-purple-light")) {
+        this.streamManager.startLiveStats();
+      }
+    });
+
+    // Event listener para el botón de toggle de información
+    const toggleButton = document.getElementById("toggleStreamInfo");
+    if (toggleButton) {
+      toggleButton.addEventListener("click", () => this.toggleStreamInfo());
+    }
+  }
+
+  /**
+   * Alterna la visibilidad de la información del stream
+   * Maneja la lógica de mostrar/ocultar información y cargar datos
+   */
+  toggleStreamInfo() {
+    if (this.uiManager.streamInfo.classList.contains("hidden")) {
+      // Si está oculto, muestra el loader y obtiene la información
+      this.uiManager.showLoader();
+      this.streamManager.fetchStreamInfo();
+    } else {
+      // Si está visible, oculta toda la información
+      this.uiManager.hideAll();
+    }
   }
 }
 
-/**
- * Event Listener para cuando se carga la página
- * Verifica el estado inicial del botón y actualiza su texto
- */
-window.addEventListener("load", function () {
-  // Obtiene referencias a los elementos del DOM
-  const streamInfo = document.getElementById("streamInfo");
-  const buttonText = document.getElementById("toggleButtonText");
-
-  // Establece el texto del botón según el estado inicial del panel
-  if (streamInfo.classList.contains("hidden")) {
-    buttonText.textContent = "Obtener Información de Stream";
-  } else {
-    buttonText.textContent = "Ocultar Información";
-  }
-});
+// Inicializa la aplicación cuando se carga el script
+new Dashboard();
