@@ -1,22 +1,44 @@
 <?php
+
+/**
+ * Controlador de la página principal
+ */
 class IndexController
 {
+    /**
+     * @var array Lista de streams en vivo
+     */
     public $streams = [];
+
+    /**
+     * @var string Mensaje de error si ocurre algún problema
+     */
     public $error;
 
+    /**
+     * Constructor del controlador
+     * Inicializa los datos necesarios para la vista principal
+     */
     public function __construct()
     {
         try {
+            // Crea una instancia de TwitchStreams para obtener streams en vivo
             $twitch = new TwitchStreams();
             $allStreams = $twitch->obtenerStreamsEnVivo();
-
-            // Limitar a 6 streams para mostrar
+            
+            // Limita a 6 streams para mostrar
             $this->streams = array_slice($allStreams, 0, 6);
         } catch (Exception $e) {
+            // Maneja cualquier error que ocurra durante la obtención de streams
             $this->error = $e->getMessage();
         }
     }
 
+    /**
+     * Obtiene las tarjetas de características del proyecto
+     * 
+     * @return array Array con la información de las características
+     */
     public function getFeatureCards()
     {
         return [
@@ -41,6 +63,11 @@ class IndexController
         ];
     }
 
+    /**
+     * Verifica si el usuario ha iniciado sesión
+     * 
+     * @return bool True si el usuario está autenticado, false en caso contrario
+     */
     public function isUserLoggedIn()
     {
         return isset($_SESSION['twitch_user']);
