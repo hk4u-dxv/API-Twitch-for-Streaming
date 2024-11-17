@@ -1,10 +1,18 @@
 <?php
+/**
+ * Página principal de la aplicación
+ * Muestra la landing page con información de streams y acceso al dashboard
+ */
+
+// Incluye los archivos necesarios
 require_once 'config/config.php';
 require_once 'includes/TwitchStreams.php';
 require_once 'controllers/IndexController.php';
 
+// Inicia la sesión para manejar el estado del usuario
 session_start();
 
+// Instancia el controlador de la página principal
 $controller = new IndexController();
 ?>
 

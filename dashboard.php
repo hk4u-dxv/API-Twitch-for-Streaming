@@ -1,11 +1,19 @@
 <?php
+/**
+ * Dashboard principal de la aplicación
+ * Muestra información del stream y estadísticas del usuario
+ */
+
+// Incluye los archivos necesarios para el funcionamiento
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/includes/TwitchAPI.php';
 require_once __DIR__ . '/includes/TwitchStreams.php';
 require_once __DIR__ . '/controllers/DashboardController.php';
 
+// Inicia la sesión para manejar datos del usuario
 session_start();
 
+// Instancia el controlador del dashboard
 $dashboard = new DashboardController();
 ?>
 
