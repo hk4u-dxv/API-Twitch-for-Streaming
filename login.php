@@ -9,7 +9,7 @@ $params = [
     'client_id' => TWITCH_CLIENT_ID,
     'redirect_uri' => TWITCH_REDIRECT_URI,
     'response_type' => 'code',
-    'scope' => 'user:read:email', // Ajusta los scopes según necesites
+    'scope' => 'user:read:email channel:read:stream_key',
     'force_verify' => 'true'
 ];
 

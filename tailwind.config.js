@@ -22,27 +22,29 @@ module.exports = {
       },
       keyframes: {
         gradient: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '100% 50%' }
         },
         floatUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
+          '0%': { 
+            transform: 'translateY(20px)', 
+            opacity: '0' 
+          },
+          '100%': { 
+            transform: 'translateY(0)', 
+            opacity: '1' 
+          }
         },
-        pulse: {
-          '0%, 100%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(1.05)' },
-        },
-        shimmer: {
-          '0%': { backgroundPosition: '-1000px 0' },
-          '100%': { backgroundPosition: '1000px 0' },
+        slideBg: {
+          '0%': { backgroundPosition: '0 0' },
+          '100%': { backgroundPosition: '100% 100%' }
         }
       },
       animation: {
-        gradient: 'gradient 15s ease infinite',
+        gradient: 'gradient 3s linear infinite',
         'float-up': 'floatUp 0.8s ease-out forwards',
-        'pulse-slow': 'pulse 3s infinite',
-        shimmer: 'shimmer 2s infinite linear'
+        'slide-bg': 'slideBg 20s linear infinite',
+        'pulse-slow': 'pulse 2s ease-in-out infinite'
       }
     },
   },

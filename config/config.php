@@ -13,7 +13,7 @@ Environment::required([
 // Configuración de la API de Twitch
 define('TWITCH_CLIENT_ID', Environment::get('TWITCH_CLIENT_ID'));
 define('TWITCH_CLIENT_SECRET', Environment::get('TWITCH_CLIENT_SECRET'));
-define('TWITCH_REDIRECT_URI', Environment::get('TWITCH_REDIRECT_URI'));
+define('TWITCH_REDIRECT_URI', 'http://localhost/api-streaming/callback.php');
 
 // URLs de la API
 define('TWITCH_AUTH_URL', 'https://id.twitch.tv/oauth2/authorize');
@@ -30,4 +30,3 @@ ini_set('display_errors', Environment::get('APP_DEBUG', false));
 
 // Zona horaria
 date_default_timezone_set('America/Mexico_City');
-  

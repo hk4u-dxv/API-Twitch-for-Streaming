@@ -9,7 +9,8 @@
     box-sizing: border-box;
   }
 
-  html, body {
+  html,
+  body {
     @apply h-full;
     max-width: 100vw;
     position: relative;
