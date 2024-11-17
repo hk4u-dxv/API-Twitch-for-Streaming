@@ -14,5 +14,5 @@ Proyecto estudiantil que integra la API de Twitch para manejo de streaming en vi
 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repositorio.git
+git clone https://github.com/hk4u-dxv/API-Twitch-for-Streaming.git
 ```
