@@ -2,19 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tus estilos personalizados y animaciones aquí */
-@layer components {
-  .btn-twitch {
-    @apply inline-block bg-twitch-purple hover:bg-twitch-purple-dark text-white font-bold py-3 px-8 rounded-full transition-colors;
+@layer base {
+  body {
+    @apply antialiased;
   }
 }
 
-/* Animaciones */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@layer components {
+  .btn-twitch {
+    @apply inline-flex items-center justify-center px-8 py-3 bg-twitch-purple hover:bg-twitch-purple-dark text-white font-bold rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg shadow-md;
+  }
 }
 
-.animate-fade-in {
-    animation: fadeIn 0.5s ease-in;
+@layer utilities {
+  .bg-gradient-animate {
+    background-size: 200% 200%;
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+  }
 }
