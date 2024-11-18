@@ -1,6 +1,6 @@
-# 🎮 Proyecto de Streaming con Twitch API
+# 🎮 Proyecto de Streaming | API Twitch
 
-Proyecto educativo que integra la API de Twitch para gestionar y mostrar transmisiones en vivo, desarrollado como parte del aprendizaje en integración de APIs y desarrollo web moderno.
+Proyecto educativo que Integra la API de Twitch para iniciar transmisiones en vivo, login OAuth2, obtener información de streams, etc. Desarrollado como parte del aprendizaje en integración de APIs y desarrollo web moderno.
 
 ![Preview](./assets/img/preview.png)
 
@@ -20,14 +20,15 @@ Proyecto educativo que integra la API de Twitch para gestionar y mostrar transmi
 ![Twitch API](https://img.shields.io/badge/Twitch-9146FF?style=for-the-badge&logo=twitch&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![XAMPP](https://img.shields.io/badge/XAMPP-FB7A24?style=for-the-badge&logo=xampp&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
 </div>
 ## 🚀 Instalación
 
 1. **Prerequisitos**
 
-- Tener instalado [XAMPP](https://www.apachefriends.org/es/index.html) (o cualquier servidor local de PHP)
-- Tener instalado [Node.js](https://nodejs.org/)
+- [XAMPP](https://www.apachefriends.org/es/index.html) (o cualquier servidor local de PHP)
+- [Node.js](https://nodejs.org/)
 
 2. **Clonar el repositorio**
 
@@ -57,12 +58,6 @@ cp .env.example .env
 npm run dev
 ```
 
-6. **Configurar servidor local**
-
-- Iniciar XAMPP Control Panel
-- Activar los módulos Apache y MySQL
-- Acceder al proyecto en: `http://localhost/API-Twitch-for-Streaming`
-
 ## ⚙️ Configuración de Twitch
 
 1. Crear una aplicación en [Twitch Developer Console](https://dev.twitch.tv/console)
@@ -75,14 +70,14 @@ npm run dev
 ```env
 TWITCH_CLIENT_ID=tu_client_id_aquí
 TWITCH_CLIENT_SECRET=tu_client_secret_aquí
-TWITCH_REDIRECT_URI=http://localhost/tu_nombre_de_la_app/callback.php 
+TWITCH_REDIRECT_URI=http://localhost/tu_nombre_de_la_app/callback.php
 APP_DEBUG=true
 APP_TIMEOUT=30
 ```
 
-## 🔧 Estructura del Proyecto
+## 🔧 Estructura base del Proyecto
 
-```
+```text
 API-Twitch-for-Streaming/
 ├── assets/
 │   ├── css/          # Estilos compilados y animaciones
