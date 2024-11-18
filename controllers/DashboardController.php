@@ -55,19 +55,27 @@ class DashboardController
     {
         if (isset($_POST['start_stream'])) {
             try {
-                // Intenta obtener la clave de stream
                 $streamKey = $this->twitchAPI->getStreamKey();
                 if ($streamKey) {
-                    // Almacena la clave de stream en la sesión
                     $_SESSION['stream_key'] = $streamKey;
-                    $this->streamKeyMessage = "Información de stream obtenida correctamente";
+                    // Devuelve JSON con la clave
+                    echo json_encode([
+                        'success' => true,
+                        'streamKey' => $streamKey
+                    ]);
                 } else {
-                    // Lanza una excepción si no se puede obtener la clave de stream
-                    throw new Exception("No se pudo obtener la clave de stream");
+                    echo json_encode([
+                        'success' => false,
+                        'error' => 'No se pudo obtener la clave de stream'
+                    ]);
                 }
+                exit; // Importante para evitar output adicional
             } catch (Exception $e) {
-                // Maneja cualquier error que ocurra durante la obtención de la clave de stream
-                $this->streamKeyError = $e->getMessage();
+                echo json_encode([
+                    'success' => false,
+                    'error' => $e->getMessage()
+                ]);
+                exit;
             }
         }
     }

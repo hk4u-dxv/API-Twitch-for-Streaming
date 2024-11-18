@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Dashboard principal de la aplicación
  * Muestra información del stream y estadísticas del usuario
@@ -25,13 +26,12 @@ $dashboard = new DashboardController();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/styles.css">
-    <script src="./assets/js/dashboard.js" defer></script>
 </head>
 
 <body class="bg-twitch-gray-dark">
-    <!-- Header mejorado -->
+    <!-- Header  -->
     <div class="bg-gradient-to-r from-twitch-purple to-twitch-purple-dark text-white py-8 pb-12 bg-gradient-animate relative overflow-hidden">
-        <!-- Patrón de fondo mejorado -->
+        <!-- Patrón de fondo -->
         <div class="absolute inset-0 bg-[url('data:image/svg+xml,...')] opacity-10 animate-slide-bg"></div>
 
         <!-- Efecto de partículas -->
@@ -54,7 +54,7 @@ $dashboard = new DashboardController();
                     </div>
                 </div>
 
-                <!-- Botones de navegación mejorados -->
+                <!-- Botones de navegación  -->
                 <div class="flex items-center space-x-4 animate-float-up" style="animation-delay: 100ms">
                     <a href="index.php"
                         class="px-4 py-2 bg-twitch-purple/80 hover:bg-twitch-purple rounded-lg flex items-center space-x-2 transition-all duration-300 hover:-translate-y-1">
@@ -101,7 +101,7 @@ $dashboard = new DashboardController();
                     Configuración del Stream
                 </h2>
 
-                <button onclick="toggleStreamInfo()"
+                <button id="toggleStreamInfo"
                     class="text-white px-4 py-2 bg-twitch-purple hover:bg-twitch-purple-dark rounded-lg flex items-center space-x-2 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -111,48 +111,79 @@ $dashboard = new DashboardController();
             </div>
 
             <!-- Contenedor de información del stream -->
-            <div id="streamInfo" class="hidden transform transition-all duration-500 ease-in-out mt-8">
-                <div class="bg-twitch-gray-dark p-10 rounded-xl mb-8">
-                    <h3 class="text-xl font-bold text-white mb-4">Instrucciones para transmitir:</h3>
-
-                    <div class="space-y-8">
-                        <!-- Paso 1 -->
-                        <div>
-                            <h4 class="text-twitch-purple-light font-bold mb-2">1. Descarga OBS Studio</h4>
-                            <p class="text-gray-400 mb-2">Descarga e instala <a href="https://obsproject.com/" target="_blank" class="text-twitch-purple hover:text-twitch-purple-light">OBS Studio</a></p>
+            <div id="streamInfo" class="hidden transform transition-all duration-500 ease-out mt-8">
+                <!-- Loader con transiciones -->
+                <div id="streamLoader" class="hidden transition-all duration-300 ease-out">
+                    <div class="bg-twitch-gray-dark p-10 rounded-xl mb-8 flex flex-col items-center justify-center min-h-[300px]">
+                        <!-- Logo y anillo animado -->
+                        <div class="relative mb-6">
+                            <div class="absolute inset-0 border-4 border-twitch-purple/20 rounded-full loader-ring"></div>
+                            <div class="w-16 h-16 border-4 border-twitch-purple border-t-transparent rounded-full animate-spin"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-twitch-purple animate-pulse-slow" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
+                                </svg>
+                            </div>
                         </div>
-
-                        <!-- Paso 2 -->
-                        <div>
-                            <h4 class="text-twitch-purple-light font-bold mb-2">2. Configura OBS</h4>
-                            <p class="text-gray-400 mb-2">En OBS, ve a Ajustes > Stream:</p>
-                            <ul class="list-disc list-inside text-gray-400 ml-4">
-                                <li>Servicio: Twitch</li>
-                                <li>Servidor: rtmp://live.twitch.tv/app</li>
-                                <li>Clave de Stream:
-                                    <?php if (isset($_SESSION['stream_key']) && $_SESSION['stream_key']): ?>
-                                        <span class="text-twitch-purple-light select-all"><?php echo htmlspecialchars($_SESSION['stream_key']); ?></span>
-                                    <?php else: ?>
-                                        <span class="text-red-400">Haz clic en "Obtener Información de Stream" para ver la clave</span>
-                                    <?php endif; ?>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Paso 3 -->
-                        <div>
-                            <h4 class="text-twitch-purple-light font-bold mb-2">3. Inicia tu transmisión</h4>
-                            <p class="text-gray-400">Haz clic en "Iniciar transmisión" en OBS Studio</p>
+                        <!-- Texto con transición -->
+                        <div class="text-center animate-fade-in">
+                            <p class="text-lg font-medium bg-gradient-to-r from-twitch-purple to-purple-400 bg-clip-text text-transparent">
+                                Obteniendo información del stream
+                            </p>
+                            <!-- Puntos con animación secuencial -->
+                            <div class="flex justify-center gap-1 mt-2">
+                                <div class="w-2 h-2 bg-twitch-purple rounded-full animate-bounce" style="animation-delay: 0s"></div>
+                                <div class="w-2 h-2 bg-twitch-purple rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                                <div class="w-2 h-2 bg-twitch-purple rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="mt-8 p-6 bg-twitch-gray-medium rounded-lg">
-                        <p class="text-yellow-400 text-sm">
-                            <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                            </svg>
-                            Mantén tu clave de stream segura. No la compartas con nadie.
-                        </p>
+                <!-- Contenido con transiciones -->
+                <div id="streamContent" class="hidden transition-all duration-300 ease-out">
+                    <div class="bg-twitch-gray-dark p-10 rounded-xl mb-8">
+                        <h3 class="text-xl font-bold text-white mb-4">Instrucciones para transmitir:</h3>
+
+                        <div class="space-y-8">
+                            <!-- Paso 1 -->
+                            <div>
+                                <h4 class="text-twitch-purple-light font-bold mb-2">1. Descarga OBS Studio</h4>
+                                <p class="text-gray-400 mb-2">Descarga e instala <a href="https://obsproject.com/" target="_blank" class="text-twitch-purple hover:text-twitch-purple-light">OBS Studio</a></p>
+                            </div>
+
+                            <!-- Paso 2 -->
+                            <div>
+                                <h4 class="text-twitch-purple-light font-bold mb-2">2. Configura OBS</h4>
+                                <p class="text-gray-400 mb-2">En OBS, ve a Ajustes > Stream:</p>
+                                <ul class="list-disc list-inside text-gray-400 ml-4">
+                                    <li>Servicio: Twitch</li>
+                                    <li>Servidor: rtmp://live.twitch.tv/app</li>
+                                    <li>Clave de Stream:
+                                        <?php if (isset($_SESSION['stream_key']) && $_SESSION['stream_key']): ?>
+                                            <span class="text-twitch-purple-light select-all"><?php echo htmlspecialchars($_SESSION['stream_key']); ?></span>
+                                        <?php else: ?>
+                                            <span class="text-red-400">Si no puedes ver la clave, haz clic en "Obtener Información de Stream" o refresca la página</span>
+                                        <?php endif; ?>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Paso 3 -->
+                            <div>
+                                <h4 class="text-twitch-purple-light font-bold mb-2">3. Inicia tu transmisión</h4>
+                                <p class="text-gray-400">Haz clic en "Iniciar transmisión" en OBS Studio</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 p-6 bg-twitch-gray-medium rounded-lg">
+                            <p class="text-yellow-400 text-sm">
+                                <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                                Mantén tu clave de stream segura. No la compartas con nadie.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -232,6 +263,9 @@ $dashboard = new DashboardController();
             </div>
         </div>
     </div>
+
+    <script type="module" src="./assets/js/dashboard.js" defer></script>
+
 </body>
 
 </html>
