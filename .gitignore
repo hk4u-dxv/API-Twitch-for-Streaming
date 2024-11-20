@@ -1,21 +1,20 @@
-# Dependencies
-/node_modules
+# Dependencias
+node_modules/
 
-# Environment files
+# Variables de entorno
 .env
 
-# IDE files
-.vscode
-.idea
-
-# Logs
+# Archivos de registro
+logs
 *.log
+npm-debug.log*
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db 
+# Archivos de caché
+.cache
+.parcel-cache
+
+# Archivos generados por TailwindCSS
+**/styles.css
+
+# Archivos de VSCode
+.vscode/
